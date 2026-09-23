@@ -38,10 +38,10 @@ collections:
           date_format: false,
           time_format: "h:mm A",
         }
-      - { label: "Featured Image", name: "thumbnail", widget: "image" }
       - {
-          label: "Description",
-          name: "body",
-          widget: "markdown",
+          label: "Featured Image",
+          name: "thumbnail",
+          widget: "image",
           choose_url: false,
         }
+      - { label: "Description", name: "body", widget: "markdown" }
