@@ -1,0 +1,69 @@
+---
+import EventImage from "../images/eventbgtest.png";
+
+const start = { month: "SEP", day: "20", weekday: "SUN" };
+const title = "3rd Strike 3rd Sunday";
+---
+
+<section>
+    <div class="calendar-list">
+        <div
+            class="flex h-89 w-xs flex-col overflow-hidden rounded-xl border border-black"
+        >
+            <!--DATE-->
+            <div
+                class="absolute z-10 w-20 rounded-tl-xl rounded-br-xl bg-gray-700 text-center"
+            >
+                <p>{start.month} <br />{start.day}<br />{start.weekday}</p>
+            </div>
+            <!--IMAGE-->
+            <div class="z-2">
+                <img src={EventImage.src} />
+            </div>
+            <!--INFO-->
+            <div class="p-8">
+                <div>{title}</div>
+                <div
+                    class="mt-4 flex w-fit rounded-xl bg-[rgb(17,17,17,0.06)] pr-4 pl-1.5"
+                >
+                    <div>C</div>
+                    <div>4:00 PM - 8:00 PM</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    import { createEventCard } from "../scripts/event-card.js";
+
+    const eventList = document.querySelector(".calendar-list");
+
+    const start = new Date();
+
+    const weekDay = start
+        .toLocaleDateString("en-US", {
+            weekday: "short",
+        })
+        .toUpperCase();
+
+    const month = start
+        .toLocaleDateString("en-US", {
+            month: "short",
+        })
+        .toUpperCase();
+
+    const day = start
+        .toLocaleDateString("en-US", {
+            day: "2-digit",
+        })
+        .toUpperCase();
+
+    const startTime = start.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+    });
+
+    const eventDate = { weekDay: weekDay, month: month, day: day };
+
+    const card = createEventCard("event title", eventDate, "image url");
+</script>
