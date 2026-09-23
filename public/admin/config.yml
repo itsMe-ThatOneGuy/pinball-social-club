@@ -10,14 +10,38 @@ media_folder: "src/assets/images" # Location where files will be stored in the r
 public_folder: "src/assets/images" # The src attribute for uploaded media
 
 collections:
-  - name: "event" # Used in routes, e.g., /admin/collections/blog
-    label: "event" # Used in the UI
-    folder: "src/content/event" # The path to the folder where the documents are stored
+  - name: "events" # Used in routes, e.g., /admin/collections/blog
+    label: "Events" # Used in the UI
+    folder: "src/content/events" # The path to the folder where the documents are stored
     create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}"
     fields: # The fields for each document, usually in frontmatter
-      - { label: "Layout", name: "layout", widget: "hidden", default: "blog" }
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - {
+          label: "Date",
+          name: "date",
+          widget: "datetime",
+          date_format: "YYYY-MM-DD",
+          time_format: false,
+        }
+      - {
+          label: "Doors Open",
+          name: "doorTime",
+          widget: "datetime",
+          date_format: false,
+          time_format: "h:mm A",
+        }
+      - {
+          label: "Event Starts",
+          name: "startTime",
+          widget: "datetime",
+          date_format: false,
+          time_format: "h:mm A",
+        }
       - { label: "Featured Image", name: "thumbnail", widget: "image" }
-      - { label: "Rating (scale of 1-5)", name: "rating", widget: "number" }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - {
+          label: "Description",
+          name: "body",
+          widget: "markdown",
+          choose_url: false,
+        }
