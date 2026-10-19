@@ -18,11 +18,34 @@ collections:
     fields: # The fields for each document, usually in frontmatter
       - { label: "Title", name: "title", widget: "string" }
       - {
+          label: "Recurring Event?",
+          name: "recurring",
+          widget: "boolean",
+          default: false,
+          required: false,
+        }
+      - {
           label: "Date",
-          name: "date",
+          name: "startDate",
           widget: "datetime",
           date_format: "YYYY-MM-DD",
           time_format: false,
+          condition: { field: "recurring", value: false },
+        }
+      - {
+          label: "Dates",
+          name: "eventDates",
+          widget: "list",
+          required: false,
+          field:
+            {
+              label: "Date",
+              name: "date",
+              widget: "datetime",
+              date_format: "YYYY-MM-DD",
+              time_format: false,
+            },
+          condition: { field: "recurring", value: true },
         }
       - {
           label: "Doors Open",
