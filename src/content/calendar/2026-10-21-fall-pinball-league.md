@@ -1,6 +1,6 @@
 ---
 title: Fall Pinball League
-eventDate: 2026-10-28
+eventDate: 2026-11-04
 doorTime: 3:53 PM
 startTime: 3:53 PM
 entryFee: 20
