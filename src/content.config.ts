@@ -7,15 +7,16 @@ const calendarItems = defineCollection({
 		base: './src/content/calendar',
 		pattern: '**/*.md',
 	}),
-	schema: z.object({
-		title: z.string(),
-		eventDates: z.array(z.coerce.date()),
-		doorTime: z.string(),
-		startTime: z.string(),
-		entryFee: z.number(),
-		prize: z.string(),
-		thumbnail: z.string(),
-	}),
+	schema: ({ image }) =>
+		z.object({
+			title: z.string(),
+			eventDates: z.array(z.coerce.date()),
+			doorTime: z.string(),
+			startTime: z.string(),
+			entryFee: z.number(),
+			prize: z.string(),
+			thumbnail: image(),
+		}),
 });
 
 export const collections = {
