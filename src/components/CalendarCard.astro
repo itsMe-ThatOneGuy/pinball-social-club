@@ -1,0 +1,70 @@
+---
+import { Image } from "astro:assets";
+const { eventDate, image, title, doorTime, startTime, entryFee, prize } =
+    Astro.props;
+---
+
+<div class="calendar-list flex h-screen gap-5">
+    <div
+        class="flex h-fit w-xs flex-col overflow-hidden rounded-xl border border-black"
+    >
+        <!--DATE-->
+        <div
+            class="absolute z-10 w-20 rounded-tl-xl rounded-br-xl bg-gray-300 text-center"
+        >
+            <p>
+                {
+                    eventDate.toLocaleDateString("default", {
+                        month: "short",
+                    })
+                }
+                <br />{eventDate.getDate()}<br />{
+                    eventDate.toLocaleString("default", {
+                        weekday: "short",
+                    })
+                }
+            </p>
+        </div>
+
+        <!--IMAGE-->
+        <div class="z-2">
+            <div>
+                <Image class="max-h-52" src={image} alt="{title}" />
+            </div>
+        </div>
+
+        <!--INFO-->
+        <div class="p-7">
+            <!--Title-->
+            <div>
+                <h1 class="text-lg font-bold">{title}</h1>
+            </div>
+
+            <!--Time-->
+            <div class="mt-4 w-fit rounded-xl bg-[rgb(17,17,17,0.06)]">
+                <div class="flex px-1.5 py-0.5">
+                    <p>
+                        Doors: {doorTime} / Start: {startTime}
+                    </p>
+                </div>
+            </div>
+
+            <!--Entry Fee-->
+            {
+                entryFee && (
+                    <div class="mt-2">
+                        <div>
+                            <p>Entry: ${entryFee}</p>
+                        </div>
+                    </div>
+                )
+            }
+
+            <div class="mt-2">
+                <div>
+                    <p>Prize: {prize}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
