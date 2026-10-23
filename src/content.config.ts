@@ -13,8 +13,8 @@ const calendarItems = defineCollection({
 			eventDates: z.array(z.coerce.date()),
 			doorTime: z.string(),
 			startTime: z.string(),
-			entryFee: z.number(),
-			prize: z.string(),
+			entryFee: z.number().optional(),
+			prize: z.string().optional(),
 			thumbnail: image(),
 		}),
 });

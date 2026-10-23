@@ -44,8 +44,20 @@ collections:
           date_format: false,
           time_format: "h:mm A",
         }
-      - { label: "Entry Fee", name: "entryFee", widget: "number" }
-      - { label: "Prize Pool", name: "prize", widget: "string" }
+      - {
+          label: "Entry Fee",
+          name: "entryFee",
+          widget: "number",
+          required: false,
+          value_type: "int",
+          min: 0,
+        }
+      - {
+          label: "Prize Pool",
+          name: "prize",
+          widget: "string",
+          required: false,
+        }
       - {
           label: "Featured Image",
           name: "thumbnail",
