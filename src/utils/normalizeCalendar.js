@@ -1,13 +1,5 @@
 const normalizeDate = (date) => {
-	const localDate = new Date(
-		date.getUTCFullYear(),
-		date.getUTCMonth(),
-		date.getUTCDate(),
-	);
-	return {
-		date: localDate,
-		display: `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`,
-	};
+	return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
 };
 
 const normalizeTitle = (title) => {
@@ -23,11 +15,10 @@ export function normalizeCalendar(entries) {
 		.flatMap((entry) =>
 			entry.data.eventDates.map((date) => {
 				const titleSlug = normalizeTitle(entry.data.title);
-
 				const normalizedDate = normalizeDate(date);
 
 				return {
-					id: `${normalizedDate.display}-${titleSlug}`,
+					id: `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}-${titleSlug}`,
 					sourceId: entry.id,
 					title: entry.data.title,
 					date: normalizedDate,
@@ -40,5 +31,5 @@ export function normalizeCalendar(entries) {
 				};
 			}),
 		)
-		.sort((a, b) => a.date.date.getTime() - b.date.date.getTime());
+		.sort((a, b) => a.date.getTime() - b.date.getTime());
 }
