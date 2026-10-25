@@ -1,7 +1,6 @@
 ---
 import { Image } from "astro:assets";
-const { eventDate, image, title, doorTime, startTime, entryFee, prize } =
-    Astro.props;
+const { details } = Astro.props;
 ---
 
 <div class="calendar-list flex h-screen gap-5">
@@ -14,12 +13,12 @@ const { eventDate, image, title, doorTime, startTime, entryFee, prize } =
         >
             <p>
                 {
-                    eventDate.toLocaleDateString("default", {
+                    details.date.toLocaleDateString("default", {
                         month: "short",
                     })
                 }
-                <br />{eventDate.getDate()}<br />{
-                    eventDate.toLocaleString("default", {
+                <br />{details.date.getDate()}<br />{
+                    details.date.toLocaleString("default", {
                         weekday: "short",
                     })
                 }
@@ -29,7 +28,11 @@ const { eventDate, image, title, doorTime, startTime, entryFee, prize } =
         <!--IMAGE-->
         <div class="z-2">
             <div>
-                <Image class="max-h-52" src={image} alt="{title}" />
+                <Image
+                    class="max-h-52"
+                    src={details.thumbnail}
+                    alt="{details.title}"
+                />
             </div>
         </div>
 
@@ -37,24 +40,24 @@ const { eventDate, image, title, doorTime, startTime, entryFee, prize } =
         <div class="p-7">
             <!--Title-->
             <div>
-                <h1 class="text-lg font-bold">{title}</h1>
+                <h1 class="text-lg font-bold">{details.title}</h1>
             </div>
 
             <!--Time-->
             <div class="mt-4 w-fit rounded-xl bg-[rgb(17,17,17,0.06)]">
                 <div class="flex px-1.5 py-0.5">
                     <p>
-                        Doors: {doorTime} / Start: {startTime}
+                        Doors: {details.doorTime} / Start: {details.startTime}
                     </p>
                 </div>
             </div>
 
             <!--Entry Fee-->
             {
-                entryFee && (
+                details.entryFee && (
                     <div class="mt-2">
                         <div>
-                            <p>Entry: ${entryFee}</p>
+                            <p>Entry: ${details.entryFee}</p>
                         </div>
                     </div>
                 )
@@ -62,7 +65,7 @@ const { eventDate, image, title, doorTime, startTime, entryFee, prize } =
 
             <div class="mt-2">
                 <div>
-                    <p>Prize: {prize}</p>
+                    <p>Prize: {details.prize}</p>
                 </div>
             </div>
         </div>
