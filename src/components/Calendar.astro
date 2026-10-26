@@ -9,9 +9,119 @@ const calendar = await getCollection("calendarItems");
 const entries = normalizeCalendar(calendar);
 ---
 
-<section>
-    <div class="calendar-list flex h-screen flex-col gap-5">
+<section class="p-10">
+    <div class="calendar-list grid h-screen grid-cols-2 gap-2">
         {entries.map((entry: object) => <CalendarCard details={entry} />)}
     </div>
-    <CalendarModal events={entries} />
+    <CalendarModal />
 </section>
+<script>
+    const modal = document.querySelector("#modal");
+    const cards = document.querySelectorAll("[data-id]");
+
+    if (!(modal instanceof HTMLElement)) {
+        throw new Error("calendar modal not found");
+    }
+
+    const closeButton = modal?.querySelector("[data-modal-close]");
+
+    const title = modal.querySelector("[data-modal-title]");
+    const date = modal.querySelector("[data-modal-date]");
+    const doors = modal.querySelector("[data-modal-doors]");
+    const start = modal.querySelector("[data-modal-start]");
+    const entry = modal.querySelector("[data-modal-entry]");
+    const prize = modal.querySelector("[data-modal-prize]");
+    const image = modal.querySelector("[data-modal-image]");
+    const description = modal.querySelector("[data-modal-description]");
+    const descriptionToggle = modal.querySelector(
+        "[data-modal-description-toggle]",
+    );
+
+    function updateDescriptionToggle() {
+        if (
+            !(description instanceof HTMLElement) ||
+            !(descriptionToggle instanceof HTMLButtonElement)
+        ) {
+            return;
+        }
+
+        description.classList.remove("line-clamp-2");
+
+        const fullHeight = description.scrollHeight;
+        const lineHeight = Number.parseFloat(
+            getComputedStyle(description).lineHeight,
+        );
+
+        const isTooLong =
+            Number.isFinite(lineHeight) && fullHeight > lineHeight * 2 + 1;
+
+        description.classList.add("line-clamp-2");
+
+        descriptionToggle.classList.toggle("hidden", !isTooLong);
+        descriptionToggle.setAttribute("aria-expanded", "false");
+        descriptionToggle.textContent = "Show More";
+    }
+
+    descriptionToggle?.addEventListener("click", () => {
+        if (!(description instanceof HTMLElement)) return;
+
+        const isExpanded =
+            descriptionToggle.getAttribute("aria-expanded") === "true";
+
+        description.classList.toggle("line-clamp-2", isExpanded);
+
+        descriptionToggle.setAttribute("aria-expanded", String(!isExpanded));
+
+        descriptionToggle.textContent = isExpanded ? "Show More" : "Show Less";
+    });
+
+    function closeModal() {
+        modal.hidden = true;
+        document.body.classList.remove("overflow-hidden");
+    }
+
+    cards.forEach((card) => {
+        card.addEventListener("click", () => {
+            if (!(card instanceof HTMLElement)) return;
+
+            if (title) title.textContent = card.dataset.title ?? "";
+
+            if (image instanceof HTMLImageElement) {
+                const imageSrc = card.dataset.image ?? "";
+
+                image.hidden = !imageSrc;
+                image.removeAttribute("src");
+
+                if (imageSrc) {
+                    image.src = imageSrc;
+                    image.alt = card.dataset.title ?? "";
+                }
+            }
+
+            if (description) {
+                description.innerHTML = card.dataset.description ?? "";
+
+                requestAnimationFrame(updateDescriptionToggle);
+            }
+
+            if (date) date.textContent = card.dataset.date ?? "";
+            if (doors) doors.textContent = card.dataset.doors || "";
+            if (start) start.textContent = card.dataset.start || "";
+            if (entry) entry.textContent = card.dataset.entry || "";
+            if (prize) prize.textContent = card.dataset.prize || "";
+
+            modal.hidden = false;
+            document.body.classList.add("overflow-hidden");
+        });
+    });
+
+    closeButton?.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeModal();
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !modal.hidden) closeModal();
+    });
+</script>
