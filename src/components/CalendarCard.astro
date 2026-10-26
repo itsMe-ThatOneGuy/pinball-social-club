@@ -3,9 +3,24 @@ import { Image } from "astro:assets";
 const { details } = Astro.props;
 ---
 
-<div class="calendar-list flex h-screen gap-5">
+<div
+    class="calendar-card"
+    data-id={details.id}
+    data-image={details.thumbnail.src}
+    data-title={details.title}
+    data-date={details.date.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        weekday: "long",
+    })}
+    data-doors={details.doorTime ?? ""}
+    data-start={details.startTime ?? ""}
+    data-entry={details.entryFee ? `$${details.entryFee}` : ""}
+    data-prize={details.prize ?? ""}
+    data-description={details.descriptionHtml}
+>
     <div
-        class="flex h-fit w-xs flex-col overflow-hidden rounded-xl border border-black"
+        class="flex h-fit w-[vh50] flex-col overflow-hidden rounded-xl border border-black"
     >
         <!--DATE-->
         <div
