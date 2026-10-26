@@ -1,0 +1,86 @@
+<div
+    id="modal"
+    hidden
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+>
+    <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        class="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-xl bg-white p-6 text-gray-900 shadow-xl"
+    >
+        <header
+            class="relative flex min-h-23 items-center justify-center px-12 py-5"
+        >
+            <h2
+                id="modal-title"
+                data-modal-title
+                class="text-center text-2xl font-bold"
+            >
+            </h2>
+            <button
+                type="button"
+                data-modal-close
+                aria-label="Close event details"
+                class="absolute top-2 right-2 flex size-6 items-center justify-center rounded-full bg-neutral-300 text-white hover:bg-neutral-500"
+            >
+                <!--CHANGE TO ICON--->
+                <span aria-hidden="true">×</span>
+            </button>
+        </header>
+
+        <img data-modal-image class="block aspect-video w-full object-cover" />
+
+        <div class="space-y-7 px-6 py-8 sm:px-9">
+            <div class="space-y-1">
+                <div
+                    data-modal-description
+                    class="line-clamp-2 text-sm leading-relaxed"
+                >
+                </div>
+
+                <button
+                    type="button"
+                    data-modal-description-toggle
+                    class="hidden text-sm text-neutral-900 hover:underline"
+                    aria-expanded="false"
+                >
+                    Show More
+                </button>
+            </div>
+
+            <div class="space-y-3">
+                <h3 class="flex items-center gap-2 text-sm font-bold uppercase">
+                    <!--CHANGE TO ICON--->
+                    When
+                </h3>
+
+                <div class="text-sm">
+                    <p data-modal-date></p>
+                    <div class="flex gap-2">
+                        <p>
+                            <span class="font-semibold">Doors:</span>
+                            <span data-modal-doors></span>
+                        </p>
+                        <p>
+                            <span class="font-semibold">Start:</span>
+                            <span data-modal-start></span>
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>
+                        <span class="font-semibold">Entry:</span>
+                        <span data-modal-entry></span>
+                    </p>
+
+                    <p>
+                        <span class="font-semibold">Prize:</span>
+                        <span data-modal-prize></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
