@@ -28,8 +28,12 @@ const entries = normalizeCalendar(calendar);
     const date = modal.querySelector("[data-modal-date]");
     const doors = modal.querySelector("[data-modal-doors]");
     const start = modal.querySelector("[data-modal-start]");
+
     const entry = modal.querySelector("[data-modal-entry]");
+    const entryRow = modal.querySelector("[data-modal-entry-row]");
     const prize = modal.querySelector("[data-modal-prize]");
+    const prizeRow = modal.querySelector("[data-modal-prize-row]");
+
     const image = modal.querySelector("[data-modal-image]");
     const description = modal.querySelector("[data-modal-description]");
     const descriptionToggle = modal.querySelector(
@@ -112,8 +116,18 @@ const entries = normalizeCalendar(calendar);
         if (date) date.textContent = card.dataset.date ?? "";
         if (doors) doors.textContent = card.dataset.doors || "";
         if (start) start.textContent = card.dataset.start || "";
+
+        const entryFee = card.dataset.entry?.trim() || "";
+        const eventPrize = card.dataset.prize?.trim() || "";
+
         if (entry) entry.textContent = card.dataset.entry || "";
+        if (entryRow instanceof HTMLElement) {
+            entryRow.hidden = !entryFee;
+        }
         if (prize) prize.textContent = card.dataset.prize || "";
+        if (prizeRow instanceof HTMLElement) {
+            prizeRow.hidden = !eventPrize;
+        }
 
         showModal();
     }
