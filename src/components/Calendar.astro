@@ -24,7 +24,6 @@ const entries = normalizeCalendar(calendar);
     }
 
     const closeButton = modal?.querySelector("[data-modal-close]");
-
     const title = modal.querySelector("[data-modal-title]");
     const date = modal.querySelector("[data-modal-date]");
     const doors = modal.querySelector("[data-modal-doors]");
@@ -36,6 +35,8 @@ const entries = normalizeCalendar(calendar);
     const descriptionToggle = modal.querySelector(
         "[data-modal-description-toggle]",
     );
+
+    let currentEventId = null;
 
     function updateDescriptionToggle() {
         if (
@@ -75,43 +76,106 @@ const entries = normalizeCalendar(calendar);
         descriptionToggle.textContent = isExpanded ? "Show More" : "Show Less";
     });
 
-    function closeModal() {
+    function showModal() {
+        modal.hidden = false;
+        document.body.classList.add("overflow-hidden");
+    }
+
+    function hideModal() {
         modal.hidden = true;
         document.body.classList.remove("overflow-hidden");
+        currentEventId = null;
+    }
+
+    function renderModal(card) {
+        currentEventId = card.dataset.id;
+
+        if (title) title.textContent = card.dataset.title ?? "";
+
+        if (image instanceof HTMLImageElement) {
+            const imageSrc = card.dataset.image ?? "";
+
+            image.hidden = !imageSrc;
+            image.removeAttribute("src");
+
+            if (imageSrc) {
+                image.src = imageSrc;
+                image.alt = card.dataset.title ?? "";
+            }
+        }
+
+        if (description instanceof HTMLElement) {
+            description.innerHTML = card.dataset.description ?? "";
+            requestAnimationFrame(updateDescriptionToggle);
+        }
+
+        if (date) date.textContent = card.dataset.date ?? "";
+        if (doors) doors.textContent = card.dataset.doors || "";
+        if (start) start.textContent = card.dataset.start || "";
+        if (entry) entry.textContent = card.dataset.entry || "";
+        if (prize) prize.textContent = card.dataset.prize || "";
+
+        showModal();
+    }
+
+    function openModal(card) {
+        const eventId = card.dataset.id;
+
+        if (!eventId) return;
+
+        if (modal.hidden || currentEventId !== eventId) {
+            const url = new URL(window.location.href);
+            url.hash = eventId;
+
+            if (url.href !== window.location.href) {
+                history.pushState({ eventModal: true, eventId }, "", url);
+            }
+        }
+
+        renderModal(card);
+    }
+
+    function syncModalWithUrl() {
+        const eventId = decodeURIComponent(window.location.hash.slice(1));
+
+        if (!eventId) {
+            hideModal();
+            return;
+        }
+
+        const card = [...cards].find(
+            (item) =>
+                item instanceof HTMLElement && item.dataset.id === eventId,
+        );
+
+        if (!card) {
+            hideModal();
+            return;
+        }
+
+        renderModal(card);
+    }
+
+    function closeModal() {
+        if (
+            history.state?.eventModal === true &&
+            history.state.eventId === currentEventId
+        ) {
+            history.back();
+            return;
+        }
+
+        const url = new URL(window.location.href);
+        url.hash = "";
+
+        history.replaceState(history.state, "", url);
+        hideModal();
     }
 
     cards.forEach((card) => {
         card.addEventListener("click", () => {
             if (!(card instanceof HTMLElement)) return;
-
-            if (title) title.textContent = card.dataset.title ?? "";
-
-            if (image instanceof HTMLImageElement) {
-                const imageSrc = card.dataset.image ?? "";
-
-                image.hidden = !imageSrc;
-                image.removeAttribute("src");
-
-                if (imageSrc) {
-                    image.src = imageSrc;
-                    image.alt = card.dataset.title ?? "";
-                }
-            }
-
-            if (description) {
-                description.innerHTML = card.dataset.description ?? "";
-
-                requestAnimationFrame(updateDescriptionToggle);
-            }
-
-            if (date) date.textContent = card.dataset.date ?? "";
-            if (doors) doors.textContent = card.dataset.doors || "";
-            if (start) start.textContent = card.dataset.start || "";
-            if (entry) entry.textContent = card.dataset.entry || "";
-            if (prize) prize.textContent = card.dataset.prize || "";
-
-            modal.hidden = false;
-            document.body.classList.add("overflow-hidden");
+            openModal(card);
         });
     });
 
@@ -124,4 +188,9 @@ const entries = normalizeCalendar(calendar);
     document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" && !modal.hidden) closeModal();
     });
+
+    window.addEventListener("popstate", syncModalWithUrl);
+    window.addEventListener("hashchange", syncModalWithUrl);
+
+    syncModalWithUrl();
 </script>
