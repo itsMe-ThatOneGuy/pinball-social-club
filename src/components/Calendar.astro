@@ -16,6 +16,8 @@ const entries = normalizeCalendar(calendar);
     <CalendarModal />
 </section>
 <script>
+    import DOMPurify from "dompurify";
+
     const modal = document.querySelector("#modal");
     const cards = document.querySelectorAll("[data-id]");
 
@@ -109,7 +111,9 @@ const entries = normalizeCalendar(calendar);
         }
 
         if (description instanceof HTMLElement) {
-            description.innerHTML = card.dataset.description ?? "";
+            description.innerHTML = DOMPurify.sanitize(
+                card.dataset.description ?? "",
+            );
             requestAnimationFrame(updateDescriptionToggle);
         }
 
