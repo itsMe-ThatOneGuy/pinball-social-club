@@ -72,6 +72,35 @@ collections:
             [
               "bold",
               "italic",
+              "link",
+              "heading-one",
+              "heading-two",
+              "heading-three",
+              "heading-four",
+              "heading-five",
+              "heading-six",
+              "quote",
+              "bulleted-list",
+            ],
+          editor_components: [],
+        }
+
+  - name: "events" # Used in routes, e.g., /admin/collections/blog
+    label: "Recurring Events" # Used in the UI
+    folder: "src/content/events" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - {
+          label: "Body",
+          name: "body",
+          widget: "richtext",
+          buttons:
+            [
+              "bold",
+              "italic",
+              "link",
               "heading-one",
               "heading-two",
               "heading-three",

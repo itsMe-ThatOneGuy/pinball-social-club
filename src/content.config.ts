@@ -19,6 +19,17 @@ const calendarItems = defineCollection({
 		}),
 });
 
+const events = defineCollection({
+	loader: glob({
+		base: './src/content/events',
+		pattern: '**/*.md',
+	}),
+	schema: z.object({
+		title: z.string(),
+	}),
+});
+
 export const collections = {
 	calendarItems,
+	events,
 };
