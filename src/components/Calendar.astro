@@ -7,11 +7,43 @@ import CalendarModal from "./CalendarModal.astro";
 
 const calendar = await getCollection("calendarItems");
 const entries = normalizeCalendar(calendar);
+
+function filterUpcomingEvents(events) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return events.filter((event) => {
+        const eventDate = new Date(event.date);
+        eventDate.setHours(0, 0, 0, 0);
+
+        return eventDate >= today;
+    });
+}
+
+const currentEntries = filterUpcomingEvents(entries);
 ---
 
-<section class="p-10">
-    <div class="calendar-list grid h-screen grid-cols-2 gap-2">
-        {entries.map((entry: object) => <CalendarCard details={entry} />)}
+<section class="flex h-screen flex-col items-center p-10 pt-30 lg:mx-45">
+    <div>
+        <div>
+            <h1 class="text-3xl">Calendar</h1>
+        </div>
+    </div>
+    <div class="mt-10">
+        {
+            currentEntries.length === 0 && (
+                <div>No Upcoming Tournaments or Leauges</div>
+            )
+        }
+        {
+            currentEntries.length > 0 && (
+                <div class="calendar-list grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-3">
+                    {currentEntries.map((entry: object) => (
+                        <CalendarCard details={entry} />
+                    ))}
+                </div>
+            )
+        }
     </div>
     <CalendarModal />
 </section>
