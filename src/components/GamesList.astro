@@ -1,0 +1,31 @@
+---
+import GameCard from "./GamesCard.astro";
+
+const response = await fetch("https://pbsc-games-api.invadernny.org/api/data");
+
+const result = await response.json();
+
+const games = result.data.machines;
+---
+
+<section class="mx-5 pt-30 md:mx-45 lg:mx-165">
+    <div class="mb-5 flex justify-center">
+        <h1 class="text-3xl">Current Game List</h1>
+    </div>
+    <div class="mt-10">
+        <div class="flex flex-col gap-5 text-2xl">
+            {games.map((game: object) => <GameCard game={game} />)}
+        </div>
+    </div>
+    <div class="my-3">
+        <div class="p-3">
+            <p class="text-xl">
+                Game list provided by and updated from <a
+                    target="_blank"
+                    href="https://pinballmap.com/map/?by_location_id=27576"
+                    >PinballMaps.com</a
+                >.
+            </p>
+        </div>
+    </div>
+</section>
