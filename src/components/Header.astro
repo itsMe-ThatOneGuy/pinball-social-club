@@ -1,0 +1,91 @@
+---
+import Nav from "./Nav.astro";
+import Social from "./Social.astro";
+---
+
+<header class="absolute z-50 w-full">
+    <div class="header-background bg-white">
+        <div
+            id="desktop-header"
+            class="hidden h-22 w-full basis-1/2 items-center px-[4vw] md:flex"
+        >
+            <div class="logo-container">
+                <a class="text-5xl">PSC</a>
+            </div>
+            <div class="nav-container ml-auto text-2xl">
+                <Nav navClass="flex" linkClass="ml-2.5 leading-5" />
+            </div>
+            <Social />
+        </div>
+
+        <div
+            id="mobile-header"
+            class="flex h-22 w-full basis-1/2 items-center px-[4vw] md:hidden"
+        >
+            <div class="">
+                <a class="text-3xl" href="/">PSC </a>
+            </div>
+            <div class="ml-auto">
+                <button
+                    id="mobile-nav-button"
+                    data-mobilenavopen="false"
+                    aria-expanded="false"
+                    aria-controls="mobile-nav"
+                >
+                    <p class="open-mobile-nav data-[mobilenavopen=true]:hidden">
+                        OPEN
+                    </p>
+                    <p
+                        class="close-mobile-nav hidden data-[mobilenavopen=true]:inline"
+                    >
+                        CLOSE
+                    </p>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div
+        id="mobile-nav"
+        class="fixed inset-x-0 top-22 bottom-0 hidden h-screen overflow-y-auto overscroll-contain bg-white data-[visible=true]:block"
+    >
+        <div class="flex flex-col items-center gap-16">
+            <Nav navClass=" my-20 flex flex-col items-center gap-12 text-3xl" />
+            <Social />
+        </div>
+    </div>
+</header>
+<script>
+    let mobileNavVisible = false;
+
+    const mobileNavButton = document.querySelector("#mobile-nav-button");
+    const mobileNavButtonElement = {
+        open: document.querySelector(".open-mobile-nav"),
+        close: document.querySelector(".close-mobile-nav"),
+    };
+    const updateMobileNavButton = () => {
+        Object.keys(mobileNavButtonElement).forEach((key) => {
+            mobileNavButtonElement[key].dataset.mobilenavopen =
+                String(mobileNavVisible);
+        });
+    };
+
+    const mobileNavElement = document.querySelector("#mobile-nav");
+    mobileNavElement.setAttribute("aria-expanded", mobileNavVisible);
+
+    const updateMobileNav = () => {
+        mobileNavElement.dataset.visible = String(mobileNavVisible);
+
+        mobileNavButton?.setAttribute(
+            "aria-expanded",
+            String(mobileNavVisible),
+        );
+
+        document.body.classList.toggle("overflow-hidden", mobileNavVisible);
+    };
+
+    mobileNavButton.addEventListener("click", () => {
+        mobileNavVisible = !mobileNavVisible;
+        updateMobileNavButton();
+        updateMobileNav();
+    });
+</script>

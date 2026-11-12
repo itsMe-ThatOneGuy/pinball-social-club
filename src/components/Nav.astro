@@ -1,0 +1,32 @@
+---
+const NAV_LINKS = [
+    {
+        name: "Home",
+        link: "/",
+    },
+    {
+        name: "Game List",
+        link: "/games",
+    },
+    {
+        name: "Calendar",
+        link: "/calendar",
+    },
+    {
+        name: "Events",
+        link: "/events",
+    },
+];
+
+const { navClass = "", linkClass = "" } = Astro.props;
+---
+
+<nav class={navClass}>
+    {
+        NAV_LINKS.map((link) => (
+            <div class={linkClass}>
+                <a href={link.link}>{link.name}</a>
+            </div>
+        ))
+    }
+</nav>
