@@ -24,9 +24,12 @@ const events = defineCollection({
 		base: './src/content/events',
 		pattern: '**/*.md',
 	}),
-	schema: z.object({
-		title: z.string(),
-	}),
+	schema: ({ image }) =>
+		z.object({
+			thumbnail: image().optional(),
+			title: z.string(),
+			frequency: z.string().optional(),
+		}),
 });
 
 export const collections = {

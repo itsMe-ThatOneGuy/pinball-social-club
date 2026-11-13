@@ -91,7 +91,20 @@ collections:
     create: true # Allow users to create new documents in this collection
     slug: "{{slug}}"
     fields:
+      - {
+          label: "Featured Image",
+          name: "thumbnail",
+          widget: "image",
+          choose_url: false,
+          required: false,
+        }
       - { label: "Title", name: "title", widget: "string" }
+      - {
+          label: "Frequency",
+          name: "frequency",
+          widget: "string",
+          required: false,
+        }
       - {
           label: "Body",
           name: "body",
