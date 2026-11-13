@@ -1,4 +1,5 @@
 ---
+thumbnail: /src/assets/uploads/eventbgtest2.png
 title: Leagues
 frequency: Weekly
 ---
