@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EventCard from "../components/EventCard.astro";
+
+import { getCollection } from "astro:content";
+
+const events = await getCollection("events");
+
+console.log(events[1]);
+---
+
+<BaseLayout title="Recurring Events">
+    <section class="px-6 py-16 pt-30 md:px-12">
+        <div class="mx-auto max-w-6xl">
+            <div class="mb-10">
+                <h2 class="text-4xl font-bold">Recurring Events</h2>
+                <p class="mt-2">
+                    There's always somthing new at the Pinball Social Club
+                </p>
+            </div>
+
+            <div class="divide-y divide-black/15">
+                {
+                    events.map((entry, index) => (
+                        <EventCard
+                            event={entry.data}
+                            index={index}
+                            description={entry.rendered.html}
+                        />
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+</BaseLayout>
